@@ -1,5 +1,3 @@
-const root = document.getElementById("root");
-
 function Link(props) {
     const link= document.createElement("a");
     link.href = props.href;
@@ -85,6 +83,7 @@ function App() {
 // function update app
 
 function Render() {
+    const root = document.getElementById("root");
     const app = App();
     root.innerHTML = "";
     root.append(app);
