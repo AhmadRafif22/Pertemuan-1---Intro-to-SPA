@@ -1,36 +1,66 @@
-const linkHome = document.getElementById("link-home");
-const linkAbout = document.getElementById("link-about");
 const root = document.getElementById("root");
 
-// mencegah ngelink, ubah url, dan mengubah konten root
-linkHome.onclick = function(event) {
-    event.preventDefault();
-    const homeScreen = HomeScreen();
-    root.innerHTML = "";
-    root.append(homeScreen);
-    // mengubah url
-    history.pushState(null, "", event.target.href);
-};
+// function untuk rendering navbar
+function Navbar() {
+    // link home
+    const linkHome = document.createElement("a");
+    linkHome.href = "#home";
+    linkHome.textContent = "Home";
+    linkHome.onclick = function(event) {
+        event.preventDefault();
+        const homeScreen = HomeScreen();
+        root.innerHTML = "";
+        root.append(homeScreen);
+        history.pushState(null, "", event.target.href);
+    };
 
-linkAbout.onclick = function(event) {
-    event.preventDefault();
-    const aboutScreen = AboutScreen();
-    root.innerHTML = "";
-    root.append(aboutScreen);
-    // mengubah url
-    history.pushState(null, "", event.target.href);
-};
+    // link about
+    const linkAbout = document.createElement("a");
+    linkAbout.href = "#about";
+    linkAbout.textContent = "About";
+    linkAbout.onclick = function(event) {
+        event.preventDefault();
+        const aboutScreen = AboutScreen();
+        root.innerHTML = "";
+        root.append(aboutScreen);
+        history.pushState(null, "", event.target.href);
+    };
+
+    const div = document.createElement("div");
+    div.append(linkHome);
+    div.append(linkAbout);
+
+    return div;
+}
 
 // Function untuk rendering client side halaman about
 function AboutScreen() {
+    const linkHome = document.createElement("a");
+    linkHome.href = "#home";
+    linkHome.textContent = "Kembali ke Home";
+    linkHome.onclick = function(event) {
+        event.preventDefault();
+        const homeScreen = HomeScreen();
+        root.innerHTML = "";
+        root.append(homeScreen);
+        history.pushState(null, "", event.target.href);
+    };
+
+
     const text = document.createElement("p");
     text.textContent = "Welcome to About";
 
-    return text;
+    const div = document.createElement("div");
+    div.append(linkHome);
+    div.append(text);
+
+    return div;
 }
 
 // Function untuk rendering client side halaman home
 function HomeScreen() {
+    const navbar = Navbar();
+
     const textPreview = document.createElement("p");
 
     const input = document.createElement("input");
@@ -40,6 +70,7 @@ function HomeScreen() {
     input.placeholder = "Enter your name";
 
     const div = document.createElement("div");
+    div.append(navbar);
     div.append(input);
     div.append(textPreview);
     
