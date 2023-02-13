@@ -6,10 +6,8 @@ function Link(props) {
     link.textContent = props.label;
     link.onclick = function(event) {
         event.preventDefault();
-        const component = props.Component();
-        root.innerHTML = "";
-        root.append(component);
         history.pushState(null, "", event.target.href);
+        Render();
     };
 
     return link;
@@ -20,13 +18,11 @@ function Navbar() {
     const linkHome = Link({
         href: "#home",
         label: "Home",
-        Component:HomeScreen,
     });
 
     const linkAbout = Link({
         href: "#about",
         label: "About",
-        Component:AboutScreen,
     });
 
     const div = document.createElement("div");
@@ -41,7 +37,6 @@ function AboutScreen() {
     const linkHome = Link({
         href: "#home",
         label: "Kembali ke Home",
-        Component:HomeScreen,
     });
 
 
@@ -75,14 +70,25 @@ function HomeScreen() {
     return div;
 }
 
-// percabangan ketika mengakses url langsung
-if (location.hash === "#about") {
-    const aboutScreen = AboutScreen();
-    root.innerHTML = "";
-    root.append(aboutScreen);
-} else if (location.hash === "#home") {
+// function render page sesuai page secara dinamis
+function App() {
     const homeScreen = HomeScreen();
-    root.innerHTML = "";
-    root.append(homeScreen);
+    const aboutScreen = AboutScreen();
+
+    if (location.hash === "#about") {
+        return aboutScreen;
+    } else if (location.hash === "#home") {
+        return homeScreen;
+    }    
 }
 
+// function update app
+
+function Render() {
+    const app = App();
+    root.innerHTML = "";
+    root.append(app);
+}
+
+// untuk render pertama kali
+Render();
