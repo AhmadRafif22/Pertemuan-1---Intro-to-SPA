@@ -5,8 +5,22 @@ let state = {
 };
 
 function setState(newState) {
-    state = { ...state, ...newState };
+    const prevState = {...state};
+    const nextState = {...state, ...newState};
+
+    state = nextState;
     Render();
+    onStateChange(prevState, nextState);
+}
+
+function onStateChange(prevState, nextState) {
+    if(prevState.inputValue != nextState.inputValue) {
+        localStorage.setItem("inputValue", nextState.inputValue);
+    }
+
+    if(prevState.hash != nextState.hash) {
+        history.pushState(null, "", nextState.hash);
+    }
 }
 
 function Link(props) {
@@ -17,7 +31,6 @@ function Link(props) {
         event.preventDefault();
         const url = new URL(event.target.href);
         setState({ hash: url.hash });
-        history.pushState(null, "", event.target.href);
     };
 
     return link;
